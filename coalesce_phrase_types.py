@@ -1,3 +1,4 @@
+# Remove repeated words and coalesce the word's types into a list if it has multiple types
 f = open('words2', 'r')
 f2 = open('words3', 'w')
 word = f.readline().split('\t')
