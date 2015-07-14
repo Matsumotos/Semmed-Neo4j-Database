@@ -1,3 +1,5 @@
+# Remove repeats in the list of types for each word
+
 f = open('words3', 'r')
 f2 = open('words4', 'w')
 for line in f:
