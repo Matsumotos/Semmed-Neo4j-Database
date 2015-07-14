@@ -1,3 +1,5 @@
+# Remove duplicate relationships and coalesce the PMID citations for each relationship into a list (if there are multiple citations)
+
 f = open('preds', 'r')
 f2 = open('preds2', 'w')
 word = f.readline().split('\t')
