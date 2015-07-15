@@ -9,7 +9,7 @@ for line in f:
 	f2.write(word[0] + '\t' + word[1] + '\t' + word[2])
 	word = new
     else:
-	word[1] = word[1] + '`' + new[1]
+	word[1] = word[1] + ',' + new[1]
 
 f2.write(word[0] + '\t' + word[1] + '\t' + word[2])
 f.close()
