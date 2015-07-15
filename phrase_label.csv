@@ -1,1 +1,1 @@
-phrase:ID(phrase)	type	cui
+phrase:ID(phrase)	type:string[]	cui
