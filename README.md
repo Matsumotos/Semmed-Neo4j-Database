@@ -45,6 +45,7 @@ Find the shortest path between ngly1 and a node with the substring "cancer":
 ###Web Accessible Instance of Neo4j
 
 To allow anyone to access the database in the Neo4j browser uncomment
+
     org.neo4j.server.webserver.address=0.0.0.0
 
 in con/neo4j-server.properties.
