@@ -42,7 +42,7 @@ Multistep relationships (2 step relationships of type "inhibits"):
 
 Find a node with the substring "cancer":
 
-    match (s) where s.phrase =~ '.\*cancer.\*' return s;
+    match (s) where s.phrase =~ '.*cancer.*' return s;
 
 Find the shortest paths between ngly1 and nodes with the substring "cancer":
 
