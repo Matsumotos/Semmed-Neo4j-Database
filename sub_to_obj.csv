@@ -1,1 +1,1 @@
-:TYPE	predicate	pmid	:START_ID(phrase)	:END_ID(phrase)
+:TYPE	predicate	pmid:string[]	:START_ID(phrase)	:END_ID(phrase)
