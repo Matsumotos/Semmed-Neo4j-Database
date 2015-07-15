@@ -10,15 +10,19 @@ awk -F$'\t' '{print tolower($11 "\t" $12 "\t" $10)}' OFS=$'\t' p_a.csv | LC_COLL
 
 # Sort and filter subject and object information
 LC_COLLATE=C sort -t$'\t' words | uniq >words2
+rm words
 
 # Get predicate information from predication_aggregate table
 awk -F$'\t' '{print tolower($5 "\t" $5 "\t" $4 "\t" $7 "\t" $11)}' OFS=$'\t' p_a.csv | LC_COLLATE=C sort -t$'\t' -k1,1 -k4 | uniq >preds
 
 # Remove duplicate words from the subject and object information and coalesce the types for each word into a list
 python coalesce_phrase_types.py
+rm words2
 
 # Remove repeated types from the lists created by coalesce_phrase_types.py
 python remove_repeat_types.py
+rm words3
 
 # Remove duplicate relationships in predicate information and coalesce PMID citations for each relationship into a list
 python preds.py
+rm preds
