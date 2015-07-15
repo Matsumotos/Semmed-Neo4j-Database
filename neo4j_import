@@ -2,6 +2,4 @@
 
 # Import CSVs with subject, object, and predicate information into Neo4j database
 # Assumes this file is run in the Neo4j directory and the CSV are in this directory
-# This import has arrays delimited by '`' because other characters (including ',' and ';') were
-# already used in the CSV files.
-bin/neo4j-import --into data/graph.db --nodes:PHRASE 'phrase_label.csv','words4' --relationships 'sub_to_obj.csv','preds2' --delimiter 'TAB' --array-delimiter '`'
+bin/neo4j-import --into data/graph.db --nodes:PHRASE 'phrase_label.csv','words4' --relationships 'sub_to_obj.csv','preds2' --delimiter 'TAB' --array-delimiter ','
