@@ -10,15 +10,15 @@ The neo4j_data file will create new files that have the subject, object, and pre
 
   preds.py: This checks if a relationship is repeated.  If so, it adds the PMID citation from the repeated relationship to a list of PMID associated with that relationship.  It writes a file with the PMIDs for each relationship listed and no repeated relationships.
 
-The neo4j_import file runs a script to import the data into Neo4j.  It creates a database named graph.db.  If there is already a database with this name, the import will fail.  The subjects and objects are ndoes labeled "PHRASE," and the predicates are relationships, labeled with the predicate, linking the subjects and objects.
+The neo4j_import file runs a script to import the data into Neo4j.  It creates a database named graph.db.  If there is already a database with this name, the import will fail.  The subjects and objects are nodes labeled "PHRASE," and the predicates are relationships, labeled with the predicate, linking the subjects and objects.
 
-phrase_label.csv and sub_to_object.csv contain the headers to label the nodes and relationships, respectively.
+phrase_label.csv and sub_to_obj.csv contain the headers to label the nodes and relationships, respectively.
 
 ###Format of the Database
 
-Subjects and Objects are nodes (vertices) with label "PHRASE."  Nodes have three properties: phrase, type, and cui.  The phrase is the subject or object.  The type is a list of the semantic type abbreviations that apply to the phrase.  The cui is the identification number for the subject or object.
+Subjects and objects are nodes (vertices) with label "PHRASE."  Nodes have three properties: phrase, type, and cui.  The phrase is the subject or object.  The type is a comma separated array of the semantic type abbreviations that apply to the phrase.  The cui is the identification number from UMLS or EntrezGene for the subject or object.
 
-Predicates are relationships (edges) that link the subject to the object.  The type of the relationship is the predicate.  The relationships have two properties: predicate and pmid.  The predicate property contains the predicate; it is the same as the relationship type.  The pmid is a list of PMIDs for articles in which the relationship was found.
+Predicates are relationships (edges) that go from the subject to the object.  The type of the relationship is the predicate.  The relationships have two properties: predicate and pmid.  The predicate property contains the predicate; it is the same as the relationship type.  The pmid is a comma separated array of PMIDs for articles in which the relationship was found.
 
 ###Quick Guide to Neo4j
 
@@ -27,6 +27,10 @@ Please also refer to the Neo4j Manual: neo4j.com/docs/stable/
 Find what ngly1 causes:
 
     match (s {phrase:'ngly1'})-[r:causes]->(o) return o;
+
+Find subjects and objects with types 'gngm' and 'imft' (limit to 25 results returned):
+
+    match (s) where 'gngm' in s.type and 'imft' in s.type return s limit 25;
 
 Multistep relationships (3-4 steps; skip the first 1000 paths returned):
 
@@ -40,7 +44,7 @@ Find a node with the substring "cancer":
 
     match (s) where s.phrase =~ '.\*cancer.\*' return s;
 
-Find the shortest path between ngly1 and a node with the substring "cancer":
+Find the shortest paths between ngly1 and nodes with the substring "cancer":
 
     match (s {phrase:'ngly1'}), (o) where o.phrase =~ '.*cancer.*'
     match p = shortestPath((s)-[*]-(o))
