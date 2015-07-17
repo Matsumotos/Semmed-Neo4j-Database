@@ -26,7 +26,7 @@ Please also refer to the Neo4j Manual: neo4j.com/docs/stable/
 
 Find what ngly1 causes:
 
-    MATCH (s {phrase:'ngly1'})-[r:causes]->(o) RETURN o;
+    MATCH (s {phrase:'ngly1'})-[:causes]->(o) RETURN o;
 
 Find subjects and objects with types 'gngm' and 'imft' (limit to 25 results):
 
@@ -34,7 +34,7 @@ Find subjects and objects with types 'gngm' and 'imft' (limit to 25 results):
 
 Find relationship of type "predisposes" or "neg_predisposes":
 
-    MATCH p = (()-[r:predisposes|neg_predisposes]-())
+    MATCH p = (()-[:predisposes|neg_predisposes]-())
     RETURN p LIMIT 25;
 
 Multistep relationships (3-4 steps; skip the first 1000 paths returned):
