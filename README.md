@@ -20,44 +20,6 @@ Subjects and objects are nodes (vertices) with the label "PHRASE."  Nodes have t
 
 Predicates are relationships (edges) directed from the subject to the object.  The type of the relationship is the predicate.  The relationships have two properties: predicate and pmid.  The predicate property contains the predicate; it is the same as the relationship type.  The pmid is a comma-separated array of PMIDs for articles in which the relationship was found.
 
-###Quick Guide to Neo4j
-
-Please also refer to the Neo4j Manual: neo4j.com/docs/stable/
-
-Find what ngly1 causes:
-
-    MATCH (s {phrase:'ngly1'})-[:causes]->(o) RETURN o;
-
-Find subjects and objects with types 'gngm' and 'imft' (limit to 25 results):
-
-    MATCH (s) WHERE 'gngm' IN s.type AND 'imft' IN s.type RETURN s LIMIT 25;
-
-Find relationship of type "predisposes" or "neg_predisposes":
-
-    MATCH p = (()-[:predisposes|neg_predisposes]-())
-    RETURN p LIMIT 25;
-
-Multistep relationships (3-4 steps; skip the first 1000 paths returned):
-
-    MATCH (s)-[r*3..4]-(o) RETURN s,r,o SKIP 1000 LIMIT 5;
-
-Multistep relationships (2 step relationships of type "inhibits"):
-
-    MATCH (s)-[r:inhibits*2]->(o) RETURN s,r,o LIMIT 3;
-
-Find the shortest paths between ngly1 and nodes with the substring "cancer":
-
-    MATCH (s {phrase:'ngly1'}), (o)
-    WHERE o.phrase =~ '.*cancer.*'
-    MATCH p = shortestPath((s)-[*]-(o))
-    RETURN p LIMIT 3;
-
-Find subjects related to objects with the subtring "cancer," ordered by the number of objects:
-
-    MATCH (s)-->(o) WHERE o.phrase =~ '.*cancer.*'
-    RETURN s.phrase AS subject, collect(DISTINCT o.phrase) AS objects, count(DISTINCT o) AS num
-    ORDER BY num DESC;
-
 ###Web Accessible Instance of Neo4j
 
 To allow anyone to access the database in the Neo4j browser, uncomment
