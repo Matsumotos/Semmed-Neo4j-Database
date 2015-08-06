@@ -15,13 +15,9 @@ Find relationship of type "predisposes" or "neg_predisposes":
     MATCH p = (()-[:predisposes|neg_predisposes]-())
     RETURN p LIMIT 25;
 
-Multistep relationships (3-4 steps; skip the first 1000 paths returned):
+Multistep relationships of type "inhibits" (2-3 steps; skip the first 1000 paths returned):
 
-    MATCH (s)-[r*3..4]-(o) RETURN s,r,o SKIP 1000 LIMIT 5;
-
-Multistep relationships (2 step relationships of type "inhibits"):
-
-    MATCH (s)-[r:inhibits*2]->(o) RETURN s,r,o LIMIT 3;
+    MATCH (s)-[r:inhibits*2..3]-(o) RETURN s, r, o SKIP 1000 LIMIT 5;
 
 Find the shortest paths between ngly1 and nodes with the substring "cancer":
 
@@ -30,8 +26,23 @@ Find the shortest paths between ngly1 and nodes with the substring "cancer":
     MATCH p = shortestPath((s)-[*]-(o))
     RETURN p LIMIT 3;
 
+Find the shortest paths between ngly1 and nodes of type "clnd" that do not contain nodes of type "geog" or "mamm":
+
+    MATCH (s {phrase:'ngly1'}), (o)
+    WHERE 'clnd' IN o.type
+    MATCH p = shortestPath((s)-[*]-(o))
+    UNWIND nodes(p) AS n
+    WITH n, p LIMIT 200
+    WHERE NOT 'geog' IN n.type AND NOT 'mamm' IN n.type
+    RETURN p;
+
 Find subjects related to objects with the subtring "cancer," ordered by the number of objects:
 
     MATCH (s)-->(o) WHERE o.phrase =~ '.*cancer.*'
     RETURN s.phrase AS subject, collect(DISTINCT o.phrase) AS objects, count(DISTINCT o) AS num
     ORDER BY num DESC;
+
+Fine subjects linked to breast cancer stage ii ordered by the number of ways in which they are directly connected:
+    MATCH (s)-[r]-(c {phrase:'breast cancer stage ii'})
+    WITH s, COUNT(r) AS num, COLLECT(r.predicate) AS preds
+    RETURN s.phrase, preds, num ORDER BY num DESC;
