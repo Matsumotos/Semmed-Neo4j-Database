@@ -19,6 +19,12 @@ Multistep relationships of type "inhibits" (2-3 steps; skip the first 1000 paths
 
     MATCH (s)-[r:inhibits*2..3]-(o) RETURN s, r, o SKIP 1000 LIMIT 5;
 
+Find paths from ngly1 with types "inhibits" and "augments":
+
+    MATCH p = (s {phrase:'ngly1'})-[:inhibits]->(c)-[:augments]->(o), (e {phrase:'enzymes'})
+    WHERE c <> e
+    RETURN p
+
 Find the shortest paths between ngly1 and nodes with the substring "cancer":
 
     MATCH (s {phrase:'ngly1'}), (o)
