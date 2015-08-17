@@ -14,6 +14,8 @@ The neo4j_import file runs a script to import the data into Neo4j.  It creates a
 
 phrase_label.csv and sub_to_obj.csv contain the headers labeling the nodes and relationships, respectively.
 
+The database is located in /home/sachi/neo4j-community-2.2.3/data/graph.db.  Other relevent files are located in /home/sachi/ngd and /home/sachi/p_a.
+
 ###Structure of the Database
 
 Subjects and objects are nodes (vertices) with the label "PHRASE."  Nodes have three properties: phrase, type, and cui.  The phrase is the subject or object.  The type is a comma-separated array of the semantic type abbreviations that apply to the phrase.  The cui is the identification number from UMLS or EntrezGene for the subject or object.
