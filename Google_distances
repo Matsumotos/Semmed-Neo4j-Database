@@ -1,0 +1,23 @@
+The normalized Google distance between two nodes was calculated as a ngd property on each relationship.  The following Cypher code was used to calculate the Google distnace:
+    match (s)-[r:relationship_type]->(o)
+    where r.ngd is null
+    with count(r.pmid) as both, s, o, r limit 1000
+    match (s)-[y]-(n)
+    with both, collect(y) as y2, o, r
+    with both, o, r, reduce(t = 0, y in y2 | t + length(y.pmid)) as a
+    match (o)-[x]-(m)
+    with both, collect(x) as x2, a, r
+    with both, a, r, reduce(t = 0, x in x2 | t + length(x.pmid)) as b
+    with r, case
+    when a > b
+    then ( log(a) - log(both) )/( log(17155218) - log(b) )
+    else ( log(b) - log(both) )/( log(17155218) - log(a) )
+    end as result
+    set r.ngd = result
+
+The queries were organized into files of 10 queries and POSTed using:
+    curl -H "Content-Type: application/json" -H "Accept: application/json; charset=UTF-8" -X POST -d @ngdaa http://137.131.57.237:7474/db/data/transaction/commit
+
+If the rate remains constant, the properties will be set in approximately three weeks.
+
+Hadoop likely could be used to calculate these distances.  The data would need to be imported into Hadoop, the distances calcualted, and then the data imported back into Neo4j.
