@@ -1,0 +1,7 @@
+#This script corrects the syntax at the beginning and end of POST requests if a larger file of POST requests has been split into a smaller file
+
+#!bash
+
+sed -i '1 s/.*$/{\n "statements" : [ {/g' ngd*
+
+sed -i '31 s/.*$/ } ]\n}/g' ngd*
